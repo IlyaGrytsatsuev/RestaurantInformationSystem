@@ -5,18 +5,22 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "orders")
-class OderEntity(
+class OrderEntity(
         @Id
         @Column(name = "id")
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Int,
-        @OneToOne
+        @ManyToOne
         @JoinColumn(name = "table_id")
         var tableEntity: TableEntity,
-        //TODO waiterEntity
+        @ManyToOne
+        @JoinColumn(name = "waiter_id")
+        var waiterEntity: UserEntity?,
         @ManyToOne
         @JoinColumn(name = "id")
         var orderStatusEntity: OrderStatusEntity,
         @Column(name = "timestamp")
-        var dateTime: LocalDateTime
+        var dateTime: LocalDateTime,
+        @OneToMany(mappedBy = "orderItemEntity")
+        var orderItemsEntitiesList: List<OrderItemEntity>?
 )

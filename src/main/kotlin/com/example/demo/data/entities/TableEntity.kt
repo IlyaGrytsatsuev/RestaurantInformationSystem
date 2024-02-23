@@ -1,4 +1,16 @@
 package com.example.demo.data.entities
 
-class TableEntity {
-}
+import jakarta.persistence.*
+
+@Entity
+@Table(name = "tables")
+class TableEntity (
+        @Id
+        @Column(name = "id")
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        var id: Int,
+        @Column(name = "table_number")
+        var tableNumber: Int,
+        @OneToMany(mappedBy = "tableEntity")
+        var orderEntitiesList: List<OrderEntity>?,
+)

@@ -1,4 +1,16 @@
 package com.example.demo.data.repository
 
-interface OrderItemsRepository {
+import com.example.demo.data.entities.MenuItemCategoryEntity
+import com.example.demo.data.entities.MenuItemEntity
+import com.example.demo.data.entities.OrderItemEntity
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
+
+@Repository
+interface OrderItemsRepository
+    : JpaRepository<OrderItemEntity, Int> {
+
+    @Query("SELECT * FROM orderitems  WHERE menu_item_id = :itemId", nativeQuery = true)
+    fun findAllByMenuItemId(itemId: Int): List<OrderItemEntity>
 }

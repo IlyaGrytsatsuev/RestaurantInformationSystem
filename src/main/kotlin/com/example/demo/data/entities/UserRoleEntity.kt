@@ -1,4 +1,17 @@
 package com.example.demo.data.entities
 
-class UserRoleEntity {
-}
+import jakarta.persistence.*
+
+
+@Entity
+@Table(name ="user_roles")
+class UserRoleEntity (
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "id")
+        var id: Int,
+        @Column(name = "role_name")
+        var roleName: String,
+        @OneToMany(mappedBy = "roleEntity")
+        var usersEntitiesList: List<UserEntity>?
+)

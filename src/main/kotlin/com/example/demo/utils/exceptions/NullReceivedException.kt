@@ -1,4 +1,3 @@
 package com.example.demo.utils.exceptions
 
-class NullReceivedException {
-}
+class NullReceivedException : Exception()
