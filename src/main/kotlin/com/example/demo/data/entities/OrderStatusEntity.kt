@@ -12,6 +12,9 @@ class OrderStatusEntity (
         var id: Int,
         @Column(name = "status_name")
         var name: String,
-        @OneToMany(mappedBy = "orderStatusEntity")
-        var ordersEntitiesList: List<OrderEntity>?,
+        @OneToMany(
+                mappedBy = "orderStatusEntity",
+                fetch = FetchType.LAZY
+        )
+        var ordersEntitiesList: List<OrderEntity>,
 )

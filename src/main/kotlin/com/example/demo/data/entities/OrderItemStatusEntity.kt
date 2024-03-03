@@ -3,17 +3,17 @@ package com.example.demo.data.entities
 import jakarta.persistence.*
 
 @Entity
-@Table(name ="menu_items_categories")
-class MenuItemCategoryEntity(
+@Table(name = "order_items_statuses")
+class OrderItemStatusEntity(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id")
         var id: Int,
-        @Column(name = "name")
-        var name: String,
+        @Column(name = "status")
+        var orderItemStatus: String,
         @OneToMany(
-                mappedBy = "menuItemCategoryEntity",
+                mappedBy = "status",
                 fetch = FetchType.LAZY
         )
-        var menuItemsEntitiesList: List<MenuItemEntity>,
+        var orderItemsList: List<OrderItemEntity>
 )

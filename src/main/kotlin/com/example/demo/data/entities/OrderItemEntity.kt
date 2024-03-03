@@ -17,5 +17,8 @@ class OrderItemEntity(
         var menuItemEntity: MenuItemEntity,
         @Column(name = "status_name")
         var quantity: Int,
+        @ManyToOne
+        @JoinColumn(name = "status_id")
+        var status: OrderItemStatusEntity,
 
 )

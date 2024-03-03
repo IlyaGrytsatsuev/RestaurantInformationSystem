@@ -11,6 +11,8 @@ class TableEntity (
         var id: Int,
         @Column(name = "table_number")
         var tableNumber: Int,
-        @OneToMany(mappedBy = "tableEntity")
-        var orderEntitiesList: List<OrderEntity>?,
+        @OneToMany(
+                mappedBy = "tableEntity",
+                fetch = FetchType.LAZY)
+        var orderEntitiesList: List<OrderEntity>,
 )

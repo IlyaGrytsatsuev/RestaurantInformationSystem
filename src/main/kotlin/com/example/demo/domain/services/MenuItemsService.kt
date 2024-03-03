@@ -5,7 +5,5 @@ import com.example.demo.domain.models.MenuItemModel
 interface MenuItemsService {
 
     fun getMenuItemsList(): List<MenuItemModel>
-    fun createOrUpdateItems(items: List<MenuItemModel>)
-
-
+    fun createOrUpdateMenuItems(items: List<MenuItemModel>)
 }

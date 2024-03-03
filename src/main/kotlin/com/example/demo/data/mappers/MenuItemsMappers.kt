@@ -19,7 +19,7 @@ fun MenuItemEntity?.toDomainModel(): MenuItemModel {
     )
 }
 
-fun List<MenuItemEntity>.toDomainModelsList(): List<MenuItemModel> {
+fun List<MenuItemEntity>.toStuffModelsList(): List<MenuItemModel> {
     return this.map { menuItemEntity -> menuItemEntity.toDomainModel() }
 }
 
@@ -36,5 +36,14 @@ fun MenuItemModel.toDbModel(
             description = this.description,
             imgPath = this.imgPath,
             orderItemsEntitiesList = orderItemEntitiesList
+    )
+}
+
+fun MenuItemModel.toEntityObjectForSaving(
+        categoryEntity: MenuItemCategoryEntity?
+): MenuItemEntity {
+    return this.toDbModel(
+            itemCategoryEntity = categoryEntity,
+            orderItemEntitiesList = emptyList()
     )
 }

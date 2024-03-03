@@ -17,10 +17,13 @@ class OrderEntity(
         @JoinColumn(name = "waiter_id")
         var waiterEntity: UserEntity?,
         @ManyToOne
-        @JoinColumn(name = "id")
+        @JoinColumn(name = "status_id")
         var orderStatusEntity: OrderStatusEntity,
         @Column(name = "timestamp")
         var dateTime: LocalDateTime,
-        @OneToMany(mappedBy = "orderItemEntity")
-        var orderItemsEntitiesList: List<OrderItemEntity>?
+        @OneToMany(
+                mappedBy = "orderEntity",
+                fetch = FetchType.LAZY
+        )
+        var orderItemsEntitiesList: List<OrderItemEntity>
 )

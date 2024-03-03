@@ -11,6 +11,4 @@ import org.springframework.stereotype.Repository
 interface OrderItemsRepository
     : JpaRepository<OrderItemEntity, Int> {
 
-    @Query("SELECT * FROM orderitems  WHERE menu_item_id = :itemId", nativeQuery = true)
-    fun findAllByMenuItemId(itemId: Int): List<OrderItemEntity>
 }

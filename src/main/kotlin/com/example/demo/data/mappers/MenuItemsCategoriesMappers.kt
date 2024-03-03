@@ -13,11 +13,11 @@ fun MenuItemCategoryEntity?.toDomainModel(): MenuItemCategoryModel {
             name = this.name,
             menuItemsModelsList =
             this.menuItemsEntitiesList
-                    .toDomainModelsList()
+                    .toStuffModelsList()
     )
 }
 
-fun List<MenuItemCategoryEntity>.toDomainModelsList()
+fun List<MenuItemCategoryEntity>.toStuffModelsList()
         : List<MenuItemCategoryModel> {
     return this.map { menuItemCategoryEntity ->
         menuItemCategoryEntity.toDomainModel()
@@ -35,3 +35,6 @@ fun MenuItemCategoryModel.toDbModel(
     )
 }
 
+fun MenuItemCategoryModel.toEntityObjectForSaving(): MenuItemCategoryEntity {
+    return this.toDbModel(emptyList())
+}

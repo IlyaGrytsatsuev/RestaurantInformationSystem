@@ -12,6 +12,8 @@ class UserRoleEntity (
         var id: Int,
         @Column(name = "role_name")
         var roleName: String,
-        @OneToMany(mappedBy = "roleEntity")
-        var usersEntitiesList: List<UserEntity>?
+        @OneToMany(
+                mappedBy = "roleEntity",
+                fetch = FetchType.LAZY)
+        var usersEntitiesList: List<UserEntity>
 )

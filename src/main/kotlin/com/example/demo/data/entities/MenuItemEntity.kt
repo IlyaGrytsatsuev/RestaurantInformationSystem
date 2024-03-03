@@ -21,6 +21,9 @@ class MenuItemEntity(
         var description: String?,
         @Column(name = "img_path")
         var imgPath: String?,
-        @OneToMany(mappedBy = "menuItemEntity")
+        @OneToMany(
+                mappedBy = "menuItemEntity",
+                fetch = FetchType.LAZY
+        )
         var orderItemsEntitiesList: List<OrderItemEntity>
 )
