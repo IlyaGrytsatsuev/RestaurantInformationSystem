@@ -5,4 +5,6 @@ import com.example.demo.domain.models.TableModel
 interface TablesService {
     fun getTablesList(): List<TableModel>
     fun createTable(items: List<TableModel>)
+    fun deleteTable(item: TableModel)
+
 }

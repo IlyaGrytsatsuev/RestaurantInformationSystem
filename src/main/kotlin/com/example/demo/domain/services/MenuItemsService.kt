@@ -6,4 +6,6 @@ interface MenuItemsService {
 
     fun getMenuItemsList(): List<MenuItemModel>
     fun createOrUpdateMenuItems(items: List<MenuItemModel>)
+    fun deleteMenuItem(item: MenuItemModel)
+
 }

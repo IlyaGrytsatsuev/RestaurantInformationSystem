@@ -15,7 +15,7 @@ fun UserRoleEntity?.toDomainModel(): UserRoleModel {
     )
 }
 
-fun List<UserRoleEntity>.toStuffModelsList(): List<UserRoleModel> {
+fun List<UserRoleEntity>.toDomainModelsList(): List<UserRoleModel> {
     return this.map { role -> role.toDomainModel() }
 }
 

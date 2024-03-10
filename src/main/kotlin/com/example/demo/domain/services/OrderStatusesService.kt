@@ -5,4 +5,6 @@ import com.example.demo.domain.models.OrderStatusModel
 interface OrderStatusesService {
     fun getOrderStatusesList(): List<OrderStatusModel>
     fun createOrUpdateOrderStatuses(items: List<OrderStatusModel>)
+    fun deleteOrderStatus(item: OrderStatusModel)
+
 }

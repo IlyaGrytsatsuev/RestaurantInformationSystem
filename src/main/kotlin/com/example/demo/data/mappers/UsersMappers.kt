@@ -15,7 +15,7 @@ fun UserEntity?.toStuffModel(): StuffModel {
             id = this.id,
             name = this.name,
             surname = this.surname,
-            role = this.roleEntity?.roleName ?: "",
+            role = this.roleEntity.roleName,
             ordersIdsList =
             this.ordersEntitiesList.extractIdsList()
     )
@@ -27,7 +27,7 @@ fun List<UserEntity>.toStuffModelsList(): List<StuffModel> {
 
 fun UserAuthorizationModel.toDbModel(
         ordersEntitiesList: List<OrderEntity>,
-        roleEntity: UserRoleEntity
+        roleEntity: UserRoleEntity?
 ): UserEntity {
     return UserEntity(
             id = this.id,
@@ -35,14 +35,14 @@ fun UserAuthorizationModel.toDbModel(
             password = this.password,
             name = this.name,
             surname = this.surname,
-            roleEntity = roleEntity,
+            roleEntity = roleEntity?: throw NullReceivedException(),
             ordersEntitiesList =
             ordersEntitiesList
     )
 }
 
 fun UserAuthorizationModel.toEntityObjectForSaving(
-        roleEntity: UserRoleEntity
+        roleEntity: UserRoleEntity?
 ): UserEntity {
     return this.toDbModel(emptyList(), roleEntity)
 }

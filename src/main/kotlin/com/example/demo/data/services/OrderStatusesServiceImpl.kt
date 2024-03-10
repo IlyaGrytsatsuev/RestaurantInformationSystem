@@ -27,6 +27,11 @@ class OrderStatusesServiceImpl @Autowired constructor(
         }
     }
 
+    @Transactional
+    override fun deleteOrderStatus(item: OrderStatusModel) {
+        orderStatusesRepository.deleteById(item.id)
+    }
+
     private fun updateOrderStatusEntityOrSaveNewInstance(
             orderStatusModel: OrderStatusModel
     ) {

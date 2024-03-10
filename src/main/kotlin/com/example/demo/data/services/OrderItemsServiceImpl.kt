@@ -34,6 +34,10 @@ class OrderItemsServiceImpl @Autowired constructor(
             updateOrderItemEntityOrSaveNewInstance(orderItemModel)
         }
     }
+    @Transactional
+    override fun deleteOrderItem(item: OrderItemModel) {
+        orderItemsRepository.deleteById(item.id)
+    }
 
     private fun updateOrderItemEntityOrSaveNewInstance(
             orderItemModel: OrderItemModel

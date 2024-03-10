@@ -23,6 +23,11 @@ class TablesServiceImpl @Autowired constructor(
         items.forEach { item -> saveNewInstance(item) }
     }
 
+    @Transactional
+    override fun deleteTable(item: TableModel) {
+        tablesRepository.deleteById(item.id)
+    }
+
     private fun saveNewInstance(tableModel: TableModel) {
         var curSavedTableNumber = 1
 

@@ -5,4 +5,6 @@ import com.example.demo.domain.models.UserRoleModel
 interface UsersRolesService {
     fun getUsersRolesList(): List<UserRoleModel>
     fun createOrUpdateUserRole(items: List<UserRoleModel>)
+    fun deleteUserRole(item: UserRoleModel)
+
 }

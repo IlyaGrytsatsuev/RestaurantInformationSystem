@@ -29,6 +29,10 @@ class MenuItemsServiceImpl @Autowired constructor(
             updateMenuItemEntityOrSaveNewInstance(menuItemModel)
         }
     }
+    @Transactional
+    override fun deleteMenuItem(item: MenuItemModel) {
+        menuItemsRepository.deleteById(item.id)
+    }
 
     private fun updateMenuItemEntityOrSaveNewInstance(
             menuItemModel: MenuItemModel
