@@ -28,10 +28,16 @@ class UsersServiceImpl @Autowired constructor(
     override fun createOrUpdateUser(items: List<UserAuthorizationModel>) {
         items.forEach { item -> updateUserEntityOrSaveNewInstance(item) }
     }
-
     @Transactional
-    override fun deleteUser(item: UserAuthorizationModel) {
-        usersRepository.deleteById(item.id)
+    override fun deleteUsers(items: List<UserAuthorizationModel>) {
+        if(items.isEmpty()){
+            usersRepository.deleteAll()
+        }
+        else{
+            items.forEach{ item ->
+                usersRepository.deleteById(item.id)
+            }
+        }
     }
 
     private fun updateUserEntityOrSaveNewInstance(

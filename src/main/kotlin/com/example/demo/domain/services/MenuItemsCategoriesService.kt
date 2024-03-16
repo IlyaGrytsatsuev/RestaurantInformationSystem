@@ -9,5 +9,6 @@ interface MenuItemsCategoriesService {
     fun createOrUpdateMenuItemsCategories(
             menuItemsCategories: List<MenuItemCategoryModel>
     )
-    fun deleteMenuItemCategory(item: MenuItemCategoryModel)
+    fun deleteMenuItemCategories(ids: List<Int>)
+
 }

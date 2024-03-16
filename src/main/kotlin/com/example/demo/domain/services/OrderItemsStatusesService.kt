@@ -6,6 +6,6 @@ interface OrderItemsStatusesService {
 
     fun getOrderItemsStatusesList(): List<OrderItemStatusModel>
     fun createOrUpdateOrderItemStatus(items: List<OrderItemStatusModel>)
-    fun deleteOrderItemStatus(item: OrderItemStatusModel)
+    fun deleteOrderItemStatuses(items: List<OrderItemStatusModel>)
 
 }

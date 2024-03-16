@@ -1,15 +1,17 @@
 package com.example.demo.utils.db_fill_utils
 
-import com.example.demo.domain.models.MenuItemCategoryModel
-import com.example.demo.domain.models.MenuItemModel
-import com.example.demo.domain.models.OrderStatusModel
+import com.example.demo.data.services.ResetPrimaryKeysSequencesService
+import com.example.demo.domain.models.*
 import com.example.demo.domain.services.*
 import com.example.demo.utils.Constants
+import com.example.demo.utils.OrderItemStatus
 import com.example.demo.utils.OrderStatus
+import com.example.demo.utils.UserRole
 import com.example.demo.utils.db_fill_utils.Categories.APPETIZER_CATEGORY
 import com.example.demo.utils.db_fill_utils.Categories.BREAKFAST_CATEGORY
 import com.example.demo.utils.db_fill_utils.Categories.SALADS_CATEGORY
 import com.example.demo.utils.db_fill_utils.Categories.SOUP_CATEGORY
+import com.example.demo.utils.exceptions.NullReceivedException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 
@@ -24,6 +26,7 @@ class FillDataController @Autowired constructor(
         private val tablesService: TablesService,
         private val usersRolesService: UsersRolesService,
         private val usersService: UsersService,
+        private val primaryKeysSequencesService: ResetPrimaryKeysSequencesService
 ) {
 
     private fun randomPrice(): Int {
@@ -31,8 +34,15 @@ class FillDataController @Autowired constructor(
     }
 
     init {
-        fillMenuItemsCategories()
-        fillMenuItems()
+//        clearData()
+//        primaryKeysSequencesService.resetSequences()
+//        fillMenuItemsCategories()
+//        fillMenuItems()
+//        fillOrderStatuses()
+//        fillOderItemsStatuses()
+//        fillTables()
+//        fillUsersRoles()
+//        fillUsers()
     }
 
     fun fillMenuItemsCategories() {
@@ -78,27 +88,27 @@ class FillDataController @Autowired constructor(
         val breakfastItemsList =
                 BreakfastCategoryItems.toMenuItemModelsList(
                         categoryId = breakfastId,
-                        price = randomPrice()
+                        price = ::randomPrice
                 )
         val saladItemsList =
                 SaladsCategoryItems.toMenuItemModelsList(
                         categoryId = saladsId,
-                        price = randomPrice()
+                        price = ::randomPrice
                 )
 
         val appetizerItemsList = AppetizerCategoryItems.toMenuItemModelsList(
                 categoryId = appetizerId,
-                price = randomPrice()
+                price = ::randomPrice
         )
 
         val soupItemsList = SoupCategoryItems.toMenuItemModelsList(
                 categoryId = soupId,
-                price = randomPrice()
+                price = ::randomPrice
         )
 
         val listForSaving =
                 breakfastItemsList + saladItemsList +
-                appetizerItemsList + soupItemsList
+                        appetizerItemsList + soupItemsList
 
         menuItemsService.createOrUpdateMenuItems(listForSaving)
     }
@@ -108,7 +118,24 @@ class FillDataController @Autowired constructor(
     }
 
     fun fillOderItemsStatuses() {
-
+        val statusesList = listOf(
+                OrderItemStatusModel(
+                        id = Constants.UNDEFINED_ID,
+                        status = OrderItemStatus.RECEIVED.status,
+                        ordersItemsIdsList = emptyList()
+                ),
+                OrderItemStatusModel(
+                        id = Constants.UNDEFINED_ID,
+                        status = OrderItemStatus.IS_BEING_COOKED.status,
+                        ordersItemsIdsList = emptyList()
+                ),
+                OrderItemStatusModel(
+                        id = Constants.UNDEFINED_ID,
+                        status = OrderItemStatus.READY.status,
+                        ordersItemsIdsList = emptyList()
+                )
+        )
+        orderItemsStatusesService.createOrUpdateOrderItemStatus(statusesList)
     }
 
     fun fillOrders() {
@@ -132,16 +159,58 @@ class FillDataController @Autowired constructor(
     }
 
     fun fillTables() {
-
+        val tablesList = (1..4).map { number ->
+            TableModel(
+                    id = Constants.UNDEFINED_ID,
+                    tableNumber = number,
+                    orders = emptyList()
+            )
+        }
+        tablesService.createTable(tablesList)
     }
 
     fun fillUsersRoles() {
-
+        val rolesList = listOf(
+                UserRoleModel(
+                        id = Constants.UNDEFINED_ID,
+                        roleName = UserRole.ADMIN.name,
+                        usersList = emptyList()
+                ),
+                UserRoleModel(
+                        id = Constants.UNDEFINED_ID,
+                        roleName = UserRole.WAITER.name,
+                        usersList = emptyList()
+                )
+        )
+        usersRolesService.createOrUpdateUserRole(rolesList)
     }
 
     fun fillUsers() {
-
+        val adminRoleId = usersRolesService.getUsersRolesList()
+                .find { role ->
+                    role.roleName == UserRole.ADMIN.name
+                }?.id ?: throw NullReceivedException()
+        val usersList = listOf(
+                UserAuthorizationModel(
+                        id = Constants.UNDEFINED_ID,
+                        username = UserRole.ADMIN.name,
+                        password = UserRole.ADMIN.name,
+                        name = UserRole.ADMIN.name,
+                        surname = UserRole.ADMIN.name,
+                        roleId = adminRoleId
+                )
+        )
+        usersService.createOrUpdateUser(usersList)
     }
 
+    private fun clearData(){
+        menuItemsCategoriesService.deleteMenuItemCategories(emptyList())
+        menuItemsService.deleteMenuItems(emptyList())
+        orderItemsStatusesService.deleteOrderItemStatuses(emptyList())
+        orderStatusesService.deleteOrderStatuses(emptyList())
+        tablesService.deleteTables(emptyList())
+        usersService.deleteUsers(emptyList())
+        usersRolesService.deleteUserRoles(emptyList())
+    }
 
 }

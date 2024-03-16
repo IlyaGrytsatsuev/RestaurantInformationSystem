@@ -1,4 +1,4 @@
-package com.example.demo.domain.usecases
+package com.example.demo.domain.usecases.menu_items
 
 import com.example.demo.domain.models.MenuItemModel
 import com.example.demo.domain.services.MenuItemsService
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 class CreateOrUpdateMenuItemsUseCase @Autowired constructor(
         private val menuItemsService: MenuItemsService
 ) {
-    fun invoke(menuItemModelsList: List<MenuItemModel>) {
-        menuItemsService.createOrUpdateItems(menuItemModelsList)
+    operator fun invoke(menuItemModelsList: List<MenuItemModel>) {
+        menuItemsService.createOrUpdateMenuItems(menuItemModelsList)
     }
 }

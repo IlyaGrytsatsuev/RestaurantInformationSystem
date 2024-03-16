@@ -30,8 +30,15 @@ class MenuItemsCategoriesServiceImpl @Autowired constructor(
     }
 
     @Transactional
-    override fun deleteMenuItemCategory(item: MenuItemCategoryModel) {
-        menuItemsCategoriesRepository.deleteById(item.id)
+    override fun deleteMenuItemCategories(ids: List<Int>) {
+        if(ids.isEmpty()) {
+            menuItemsCategoriesRepository.deleteAll()
+        }
+        else {
+            ids.forEach { id ->
+                menuItemsCategoriesRepository.deleteById(id)
+            }
+        }
     }
 
     private fun updateItemCategoryEntityOrSaveNewInstance(

@@ -5,6 +5,6 @@ import com.example.demo.domain.models.OrderItemModel
 interface OrderItemsService {
     fun getOrderItemsList(): List<OrderItemModel>
     fun createOrUpdateOrderItems(items: List<OrderItemModel>)
-    fun deleteOrderItem(item: OrderItemModel)
+    fun deleteOrderItems(items: List<OrderItemModel>)
 
 }

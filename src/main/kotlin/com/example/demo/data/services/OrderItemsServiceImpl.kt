@@ -34,9 +34,17 @@ class OrderItemsServiceImpl @Autowired constructor(
             updateOrderItemEntityOrSaveNewInstance(orderItemModel)
         }
     }
+
     @Transactional
-    override fun deleteOrderItem(item: OrderItemModel) {
-        orderItemsRepository.deleteById(item.id)
+    override fun deleteOrderItems(items: List<OrderItemModel>) {
+        if(items.isEmpty()) {
+            orderItemsRepository.deleteAll()
+        }
+        else{
+            items.forEach{item ->
+                orderItemsRepository.deleteById(item.id)
+            }
+        }
     }
 
     private fun updateOrderItemEntityOrSaveNewInstance(
@@ -52,8 +60,8 @@ class OrderItemsServiceImpl @Autowired constructor(
             val menuItemEntity = menuItemsRepository
                     .findByIdOrNull(orderItemModel.menuItemModel.id)
 
-            val status = orderItemsStatusesRepository.findByStatusOrNull(
-                    OrderItemStatus.RECEIVED.status
+            val status = orderItemsStatusesRepository.findByIdOrNull(
+                    orderItemModel.status.id
             )
             orderItemsRepository.save(
                     orderItemModel.toDbModel(

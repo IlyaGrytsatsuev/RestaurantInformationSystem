@@ -26,8 +26,15 @@ class UsersRolesServiceImpl @Autowired constructor(
     }
 
     @Transactional
-    override fun deleteUserRole(item: UserRoleModel) {
-        userRolesRepository.deleteById(item.id)
+    override fun deleteUserRoles(items: List<UserRoleModel>) {
+        if(items.isEmpty()){
+            userRolesRepository.deleteAll()
+        }
+        else{
+            items.forEach{ item ->
+                userRolesRepository.deleteById(item.id)
+            }
+        }
     }
 
     private fun updateUserRoleEntityOrSaveNewInstance(

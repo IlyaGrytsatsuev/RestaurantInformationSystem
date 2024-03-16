@@ -26,8 +26,15 @@ class OrderItemsStatusesServiceImpl @Autowired constructor(
     }
 
     @Transactional
-    override fun deleteOrderItemStatus(item: OrderItemStatusModel) {
-        orderItemsStatusesRepository.deleteById(item.id)
+    override fun deleteOrderItemStatuses(items: List<OrderItemStatusModel>){
+        if(items.isEmpty()){
+            orderItemsStatusesRepository.deleteAll()
+        }
+        else{
+            items.forEach{ item->
+                orderItemsStatusesRepository.deleteById(item.id)
+            }
+        }
     }
 
     private fun updateOrderItemStatusEntityOrSaveNewInstance(

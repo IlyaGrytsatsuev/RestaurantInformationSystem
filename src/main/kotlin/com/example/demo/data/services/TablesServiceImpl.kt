@@ -24,8 +24,15 @@ class TablesServiceImpl @Autowired constructor(
     }
 
     @Transactional
-    override fun deleteTable(item: TableModel) {
-        tablesRepository.deleteById(item.id)
+    override fun deleteTables(items: List<TableModel>) {
+        if(items.isEmpty()){
+            tablesRepository.deleteAll()
+        }
+        else{
+            items.forEach{ item ->
+                tablesRepository.deleteById(item.id)
+            }
+        }
     }
 
     private fun saveNewInstance(tableModel: TableModel) {
