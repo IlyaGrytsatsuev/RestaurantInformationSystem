@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class CreateOrUpdateMenuItemsUseCase @Autowired constructor(
+internal class CreateOrUpdateMenuItemsUseCase @Autowired constructor(
         private val menuItemsService: MenuItemsService
 ) {
     operator fun invoke(menuItemModelsList: List<MenuItemModel>) {

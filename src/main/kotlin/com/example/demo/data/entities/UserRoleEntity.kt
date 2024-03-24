@@ -5,7 +5,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name ="user_roles")
-class UserRoleEntity (
+internal class UserRoleEntity (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(name = "id")

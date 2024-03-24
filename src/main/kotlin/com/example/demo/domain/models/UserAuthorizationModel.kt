@@ -2,7 +2,7 @@ package com.example.demo.domain.models
 
 import com.example.demo.data.entities.UserRoleEntity
 
-data class UserAuthorizationModel(
+internal data class UserAuthorizationModel(
         val id: Int,
         val username: String,
         val password: String,

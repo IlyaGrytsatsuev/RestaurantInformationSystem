@@ -1,8 +1,8 @@
 package com.example.demo.data.services
 
 import com.example.demo.data.entities.UserEntity
-import com.example.demo.data.mappers.toEntityObjectForSaving
 import com.example.demo.data.mappers.toStuffModelsList
+import com.example.demo.data.mappers.toUserEntityObjectForSaving
 import com.example.demo.data.repository.UserRolesRepository
 import com.example.demo.data.repository.UsersRepository
 import com.example.demo.domain.models.StuffModel
@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class UsersServiceImpl @Autowired constructor(
-        private val usersRepository: UsersRepository,
-        private val userRolesRepository: UserRolesRepository
+internal class UsersServiceImpl @Autowired constructor(
+    private val usersRepository: UsersRepository,
+    private val userRolesRepository: UserRolesRepository
 ) : UsersService {
     override fun getStuffList(): List<StuffModel> {
         return usersRepository.findAll().toStuffModelsList()
@@ -28,32 +28,32 @@ class UsersServiceImpl @Autowired constructor(
     override fun createOrUpdateUser(items: List<UserAuthorizationModel>) {
         items.forEach { item -> updateUserEntityOrSaveNewInstance(item) }
     }
+
     @Transactional
-    override fun deleteUsers(items: List<UserAuthorizationModel>) {
-        if(items.isEmpty()){
+    override fun deleteUsers(items: List<Int>) {
+        if (items.isEmpty()) {
             usersRepository.deleteAll()
-        }
-        else{
-            items.forEach{ item ->
-                usersRepository.deleteById(item.id)
+        } else {
+            items.forEach { id ->
+                usersRepository.deleteById(id)
             }
         }
     }
 
     private fun updateUserEntityOrSaveNewInstance(
-            userAuthorizationModel: UserAuthorizationModel
+        userAuthorizationModel: UserAuthorizationModel
     ) {
         val userEntity = usersRepository
-                .findByIdOrNull(userAuthorizationModel.id)
+            .findByIdOrNull(userAuthorizationModel.id)
 
         if (userEntity == null) {
             val userRoleEntity = userRolesRepository.findByIdOrNull(
-                    userAuthorizationModel.roleId
+                userAuthorizationModel.roleId
             )
             usersRepository.save(
-                    userAuthorizationModel.toEntityObjectForSaving(
-                            userRoleEntity
-                    )
+                userAuthorizationModel.toUserEntityObjectForSaving(
+                    userRoleEntity
+                )
             )
         } else {
             userEntity.setEntityProperties(userAuthorizationModel)
@@ -61,14 +61,14 @@ class UsersServiceImpl @Autowired constructor(
     }
 
     private fun UserEntity.setEntityProperties(
-            userAuthorizationModel: UserAuthorizationModel
+        userAuthorizationModel: UserAuthorizationModel
     ) {
         this.username = userAuthorizationModel.username
         this.password = userAuthorizationModel.password
         this.name = userAuthorizationModel.name
         this.surname = userAuthorizationModel.surname
         this.roleEntity = userRolesRepository.findByIdOrNull(
-                userAuthorizationModel.roleId
+            userAuthorizationModel.roleId
         ) ?: throw NullReceivedException()
     }
 }

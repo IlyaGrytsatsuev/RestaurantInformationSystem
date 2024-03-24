@@ -3,7 +3,7 @@ package com.example.demo.presenter.controllers
 import com.example.demo.domain.usecases.menu_items_categories.AddOrEditMenuItemsCategoryUseCase
 import com.example.demo.domain.usecases.menu_items_categories.DeleteMenuItemCategoriesUseCase
 import com.example.demo.domain.usecases.menu_items_categories.GetMenuItemsCategoriesUseCase
-import com.example.demo.presenter.api_models.menu_items.ErrorResponseModel
+import com.example.demo.presenter.api_models.ErrorResponseModel
 import com.example.demo.presenter.api_models.menu_items_categories.DeleteMenuItemsCategoriesRequest
 import com.example.demo.presenter.api_models.menu_items_categories.MenuItemsCategoriesRequestAndResponse
 import com.example.demo.presenter.mappers.toCategoriesRequestAndResponse
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/categories")
-class MenuCategoriesRestController @Autowired constructor(
+internal class MenuCategoriesRestController @Autowired constructor(
         private val getMenuItemsCategoriesUseCase: GetMenuItemsCategoriesUseCase,
         private val addOrEditMenuItemsCategoryUseCase: AddOrEditMenuItemsCategoryUseCase,
         private val deleteMenuItemCategoriesUseCase: DeleteMenuItemCategoriesUseCase

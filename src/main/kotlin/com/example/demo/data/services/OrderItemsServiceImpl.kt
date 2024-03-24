@@ -1,15 +1,14 @@
 package com.example.demo.data.services
 
 import com.example.demo.data.entities.OrderItemEntity
-import com.example.demo.data.mappers.toDbModel
-import com.example.demo.data.mappers.toStuffModelsList
+import com.example.demo.data.mappers.toOrderItemDbModel
+import com.example.demo.data.mappers.toOrderItemModelsList
 import com.example.demo.data.repository.MenuItemsRepository
 import com.example.demo.data.repository.OrderItemsRepository
 import com.example.demo.data.repository.OrderItemsStatusesRepository
 import com.example.demo.data.repository.OrdersRepository
 import com.example.demo.domain.models.OrderItemModel
 import com.example.demo.domain.services.OrderItemsService
-import com.example.demo.utils.OrderItemStatus
 import com.example.demo.utils.exceptions.NullReceivedException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
@@ -18,14 +17,14 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class OrderItemsServiceImpl @Autowired constructor(
-        private val orderItemsRepository: OrderItemsRepository,
-        private val ordersRepository: OrdersRepository,
-        private val menuItemsRepository: MenuItemsRepository,
-        private val orderItemsStatusesRepository: OrderItemsStatusesRepository,
-): OrderItemsService {
+internal class OrderItemsServiceImpl @Autowired constructor(
+    private val orderItemsRepository: OrderItemsRepository,
+    private val ordersRepository: OrdersRepository,
+    private val menuItemsRepository: MenuItemsRepository,
+    private val orderItemsStatusesRepository: OrderItemsStatusesRepository,
+) : OrderItemsService {
     override fun getOrderItemsList(): List<OrderItemModel> {
-        return orderItemsRepository.findAll().toStuffModelsList()
+        return orderItemsRepository.findAll().toOrderItemModelsList()
     }
 
     @Transactional
@@ -36,39 +35,38 @@ class OrderItemsServiceImpl @Autowired constructor(
     }
 
     @Transactional
-    override fun deleteOrderItems(items: List<OrderItemModel>) {
-        if(items.isEmpty()) {
+    override fun deleteOrderItems(items: List<Int>) {
+        if (items.isEmpty()) {
             orderItemsRepository.deleteAll()
-        }
-        else{
-            items.forEach{item ->
-                orderItemsRepository.deleteById(item.id)
+        } else {
+            items.forEach { id ->
+                orderItemsRepository.deleteById(id)
             }
         }
     }
 
     private fun updateOrderItemEntityOrSaveNewInstance(
-            orderItemModel: OrderItemModel
+        orderItemModel: OrderItemModel
     ) {
         val orderItemEntity = orderItemsRepository.findByIdOrNull(
-                orderItemModel.id
+            orderItemModel.id
         )
         if (orderItemEntity == null) {
 
             val orderEntity = ordersRepository
-                    .findByIdOrNull(orderItemModel.orderId)
+                .findByIdOrNull(orderItemModel.orderId)
             val menuItemEntity = menuItemsRepository
-                    .findByIdOrNull(orderItemModel.menuItemModel.id)
+                .findByIdOrNull(orderItemModel.menuItemModel.id)
 
             val status = orderItemsStatusesRepository.findByIdOrNull(
-                    orderItemModel.status.id
+                orderItemModel.status.id
             )
             orderItemsRepository.save(
-                    orderItemModel.toDbModel(
-                            orderEntity = orderEntity,
-                            menuItemEntity = menuItemEntity,
-                            itemStatusEntity = status
-                    )
+                orderItemModel.toOrderItemDbModel(
+                    orderEntity = orderEntity,
+                    menuItemEntity = menuItemEntity,
+                    itemStatusEntity = status
+                )
             )
         } else {
             orderItemEntity.setEntityProperties(orderItemModel)
@@ -77,10 +75,10 @@ class OrderItemsServiceImpl @Autowired constructor(
 
 
     private fun OrderItemEntity.setEntityProperties(
-            orderItemModel: OrderItemModel
+        orderItemModel: OrderItemModel
     ) {
         this.menuItemEntity = menuItemsRepository
-                .findByIdOrNull(orderItemModel.menuItemModel.id)
-                ?: throw NullReceivedException()
+            .findByIdOrNull(orderItemModel.menuItemModel.id)
+            ?: throw NullReceivedException()
     }
 }

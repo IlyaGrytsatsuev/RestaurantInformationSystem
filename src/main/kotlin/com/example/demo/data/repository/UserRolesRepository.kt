@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface UserRolesRepository: JpaRepository<UserRoleEntity, Int> {
+internal interface UserRolesRepository: JpaRepository<UserRoleEntity, Int> {
 }

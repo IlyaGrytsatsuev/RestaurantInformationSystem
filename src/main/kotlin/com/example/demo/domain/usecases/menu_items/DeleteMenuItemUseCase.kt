@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class DeleteMenuItemUseCase @Autowired constructor(
+internal class DeleteMenuItemUseCase @Autowired constructor(
         private val menuItemsService: MenuItemsService
 ) {
     operator fun invoke(ids: List<Int>){

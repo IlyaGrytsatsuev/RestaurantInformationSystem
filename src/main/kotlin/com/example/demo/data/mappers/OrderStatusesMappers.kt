@@ -5,24 +5,24 @@ import com.example.demo.data.entities.OrderStatusEntity
 import com.example.demo.domain.models.OrderStatusModel
 import com.example.demo.utils.exceptions.NullReceivedException
 
-fun OrderStatusEntity?.toDomainModel(): OrderStatusModel {
+internal fun OrderStatusEntity?.toOrderStatusDomainModel(): OrderStatusModel {
     if (this == null)
         throw NullReceivedException()
     return OrderStatusModel(
             id = this.id,
             status = this.name,
             ordersIdsList =
-            this.ordersEntitiesList.extractIdsList()
+            this.ordersEntitiesList.extractOrderIdsList()
     )
 }
 
-fun List<OrderStatusEntity>.toStuffModelsList(): List<OrderStatusModel> {
+internal fun List<OrderStatusEntity>.toOrderStatusModelsList(): List<OrderStatusModel> {
     return this.map { orderStatusEntity ->
-        orderStatusEntity.toDomainModel()
+        orderStatusEntity.toOrderStatusDomainModel()
     }
 }
 
-fun OrderStatusModel.toDbModel(
+internal fun OrderStatusModel.toOrderStatusDbModel(
         ordersEntitiesList: List<OrderEntity>
 ): OrderStatusEntity {
     return OrderStatusEntity(
@@ -32,7 +32,7 @@ fun OrderStatusModel.toDbModel(
     )
 }
 
-fun OrderStatusModel.toEntityObjectForSaving(): OrderStatusEntity {
-    return this.toDbModel(emptyList())
+internal fun OrderStatusModel.toOrderStatusEntityObjectForSaving(): OrderStatusEntity {
+    return this.toOrderStatusDbModel(emptyList())
 }
 

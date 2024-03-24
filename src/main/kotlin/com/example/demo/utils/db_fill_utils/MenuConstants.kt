@@ -114,7 +114,7 @@ object SoupCategoryItems: MenuItems {
 
 }
 
-fun MenuItems.toMenuItemModelsList(categoryId: Int, price: ()->Int): List<MenuItemModel>{
+internal fun MenuItems.toMenuItemModelsList(categoryId: Int, price: ()->Int): List<MenuItemModel>{
     return namesAndImages.map { entry ->
         MenuItemModel(
                 id = Constants.UNDEFINED_ID,

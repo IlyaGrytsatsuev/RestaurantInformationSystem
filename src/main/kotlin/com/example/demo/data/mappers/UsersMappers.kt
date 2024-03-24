@@ -5,10 +5,9 @@ import com.example.demo.data.entities.UserEntity
 import com.example.demo.data.entities.UserRoleEntity
 import com.example.demo.domain.models.StuffModel
 import com.example.demo.domain.models.UserAuthorizationModel
-import com.example.demo.domain.models.UserRoleModel
 import com.example.demo.utils.exceptions.NullReceivedException
 
-fun UserEntity?.toStuffModel(): StuffModel {
+internal fun UserEntity?.toStuffModel(): StuffModel {
     if (this == null)
         throw NullReceivedException()
     return StuffModel(
@@ -17,15 +16,15 @@ fun UserEntity?.toStuffModel(): StuffModel {
             surname = this.surname,
             role = this.roleEntity.roleName,
             ordersIdsList =
-            this.ordersEntitiesList.extractIdsList()
+            this.ordersEntitiesList.extractOrderIdsList()
     )
 }
 
-fun List<UserEntity>.toStuffModelsList(): List<StuffModel> {
+internal fun List<UserEntity>.toStuffModelsList(): List<StuffModel> {
     return this.map { user -> user.toStuffModel() }
 }
 
-fun UserAuthorizationModel.toDbModel(
+internal fun UserAuthorizationModel.toUserDbModel(
         ordersEntitiesList: List<OrderEntity>,
         roleEntity: UserRoleEntity?
 ): UserEntity {
@@ -41,8 +40,8 @@ fun UserAuthorizationModel.toDbModel(
     )
 }
 
-fun UserAuthorizationModel.toEntityObjectForSaving(
+internal fun UserAuthorizationModel.toUserEntityObjectForSaving(
         roleEntity: UserRoleEntity?
 ): UserEntity {
-    return this.toDbModel(emptyList(), roleEntity)
+    return this.toUserDbModel(emptyList(), roleEntity)
 }

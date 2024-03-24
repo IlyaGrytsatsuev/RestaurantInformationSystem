@@ -6,7 +6,7 @@ import com.example.demo.data.entities.OrderItemEntity
 import com.example.demo.domain.models.MenuItemModel
 import com.example.demo.utils.exceptions.NullReceivedException
 
-fun MenuItemEntity?.toDomainModel(): MenuItemModel {
+internal fun MenuItemEntity?.toMenuItemDomainModel(): MenuItemModel {
     if (this == null)
         throw NullReceivedException()
     return MenuItemModel(
@@ -19,12 +19,12 @@ fun MenuItemEntity?.toDomainModel(): MenuItemModel {
     )
 }
 
-fun List<MenuItemEntity>.toStuffModelsList(): List<MenuItemModel> {
-    return this.map { menuItemEntity -> menuItemEntity.toDomainModel() }
+internal fun List<MenuItemEntity>.toMenuItemModelsList(): List<MenuItemModel> {
+    return this.map { menuItemEntity -> menuItemEntity.toMenuItemDomainModel() }
 }
 
 
-fun MenuItemModel.toDbModel(
+internal fun MenuItemModel.toMenuItemDbModel(
         itemCategoryEntity: MenuItemCategoryEntity?,
         orderItemEntitiesList: List<OrderItemEntity>
 ): MenuItemEntity {
@@ -39,10 +39,10 @@ fun MenuItemModel.toDbModel(
     )
 }
 
-fun MenuItemModel.toEntityObjectForSaving(
+internal fun MenuItemModel.toMenuItemEntityObjectForSaving(
         categoryEntity: MenuItemCategoryEntity?
 ): MenuItemEntity {
-    return this.toDbModel(
+    return this.toMenuItemDbModel(
             itemCategoryEntity = categoryEntity,
             orderItemEntitiesList = emptyList()
     )

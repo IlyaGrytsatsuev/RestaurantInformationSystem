@@ -5,7 +5,7 @@ import com.example.demo.data.entities.UserRoleEntity
 import com.example.demo.domain.models.UserRoleModel
 import com.example.demo.utils.exceptions.NullReceivedException
 
-fun UserRoleEntity?.toDomainModel(): UserRoleModel {
+internal fun UserRoleEntity?.toUserRoleDomainModel(): UserRoleModel {
     if (this == null)
         throw NullReceivedException()
     return UserRoleModel(
@@ -15,11 +15,11 @@ fun UserRoleEntity?.toDomainModel(): UserRoleModel {
     )
 }
 
-fun List<UserRoleEntity>.toDomainModelsList(): List<UserRoleModel> {
-    return this.map { role -> role.toDomainModel() }
+internal fun List<UserRoleEntity>.toUserRoleDomainModelsList(): List<UserRoleModel> {
+    return this.map { role -> role.toUserRoleDomainModel() }
 }
 
-fun UserRoleModel.toDbModel(
+internal fun UserRoleModel.toUserRoleDbModel(
         usersEntitiesList: List<UserEntity>
 ): UserRoleEntity {
     return UserRoleEntity(
@@ -29,6 +29,6 @@ fun UserRoleModel.toDbModel(
     )
 }
 
-fun UserRoleModel.toEntityObjectForSaving(): UserRoleEntity {
-    return this.toDbModel(emptyList())
+internal fun UserRoleModel.toUserRoleEntityObjectForSaving(): UserRoleEntity {
+    return this.toUserRoleDbModel(emptyList())
 }

@@ -1,6 +1,6 @@
 package com.example.demo.domain.models
 
-data class OrderItemModel(
+internal data class OrderItemModel(
         val id: Int,
         val orderId: Int,
         val menuItemModel: MenuItemModel,

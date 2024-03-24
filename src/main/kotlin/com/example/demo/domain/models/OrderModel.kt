@@ -2,7 +2,7 @@ package com.example.demo.domain.models
 
 import java.time.LocalDateTime
 
-data class OrderModel(
+internal data class OrderModel(
         val id: Int,
         val waiterModel: StuffModel,
         val status: OrderStatusModel,

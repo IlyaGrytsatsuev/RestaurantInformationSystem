@@ -5,4 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface OrderStatusesRepository: JpaRepository<OrderStatusEntity, Int>
+internal interface OrderStatusesRepository: JpaRepository<OrderStatusEntity, Int>

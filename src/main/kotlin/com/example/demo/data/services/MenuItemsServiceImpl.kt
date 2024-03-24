@@ -1,10 +1,10 @@
 package com.example.demo.data.services
 
 import com.example.demo.data.entities.MenuItemEntity
-import com.example.demo.data.mappers.toStuffModelsList
-import com.example.demo.data.mappers.toEntityObjectForSaving
-import com.example.demo.data.repository.MenuItemsRepository
+import com.example.demo.data.mappers.toMenuItemEntityObjectForSaving
+import com.example.demo.data.mappers.toMenuItemModelsList
 import com.example.demo.data.repository.MenuItemsCategoriesRepository
+import com.example.demo.data.repository.MenuItemsRepository
 import com.example.demo.domain.models.MenuItemModel
 import com.example.demo.domain.services.MenuItemsService
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,13 +14,13 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class MenuItemsServiceImpl @Autowired constructor(
+internal class MenuItemsServiceImpl @Autowired constructor(
         private val menuItemsRepository: MenuItemsRepository,
         private val menuItemsCategoriesRepository: MenuItemsCategoriesRepository,
 ) : MenuItemsService {
 
     override fun getMenuItemsList(): List<MenuItemModel> {
-        return menuItemsRepository.findAll().toStuffModelsList()
+        return menuItemsRepository.findAll().toMenuItemModelsList()
     }
 
     @Transactional
@@ -56,7 +56,7 @@ class MenuItemsServiceImpl @Autowired constructor(
 
             menuItemsRepository.save(
                     menuItemModel
-                            .toEntityObjectForSaving(categoryEntity)
+                        .toMenuItemEntityObjectForSaving(categoryEntity)
             )
         } else {
             menuItemEntity.setEntityProperties(menuItemModel)

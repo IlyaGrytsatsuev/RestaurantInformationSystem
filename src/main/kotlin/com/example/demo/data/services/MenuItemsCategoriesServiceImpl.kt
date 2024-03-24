@@ -1,7 +1,7 @@
 package com.example.demo.data.services
 
-import com.example.demo.data.mappers.toStuffModelsList
-import com.example.demo.data.mappers.toEntityObjectForSaving
+import com.example.demo.data.mappers.toMenuItemCategoryEntityObjectForSaving
+import com.example.demo.data.mappers.toMenuItemCategoryModelsList
 import com.example.demo.data.repository.MenuItemsCategoriesRepository
 import com.example.demo.domain.models.MenuItemCategoryModel
 import com.example.demo.domain.services.MenuItemsCategoriesService
@@ -12,12 +12,12 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class MenuItemsCategoriesServiceImpl @Autowired constructor(
+internal class MenuItemsCategoriesServiceImpl @Autowired constructor(
         private val menuItemsCategoriesRepository: MenuItemsCategoriesRepository,
 ) : MenuItemsCategoriesService {
 
     override fun getMenuItemsCategoriesList(): List<MenuItemCategoryModel> {
-        return menuItemsCategoriesRepository.findAll().toStuffModelsList()
+        return menuItemsCategoriesRepository.findAll().toMenuItemCategoryModelsList()
     }
 
     @Transactional
@@ -50,7 +50,7 @@ class MenuItemsCategoriesServiceImpl @Autowired constructor(
         if (menuItemCategoryEntity == null) {
 
             menuItemsCategoriesRepository.save(
-                    menuItemCategoryModel.toEntityObjectForSaving()
+                    menuItemCategoryModel.toMenuItemCategoryEntityObjectForSaving()
             )
 
         } else {

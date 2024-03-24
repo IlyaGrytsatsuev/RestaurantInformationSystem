@@ -6,4 +6,4 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface OrderItemsStatusesRepository: JpaRepository<OrderItemStatusEntity, Int>
+internal interface OrderItemsStatusesRepository: JpaRepository<OrderItemStatusEntity, Int>

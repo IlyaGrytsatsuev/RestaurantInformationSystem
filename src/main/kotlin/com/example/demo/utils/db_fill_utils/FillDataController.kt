@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 
 @Controller
-class FillDataController @Autowired constructor(
+internal class FillDataController @Autowired constructor(
         private val menuItemsCategoriesService: MenuItemsCategoriesService,
         private val menuItemsService: MenuItemsService,
         private val orderItemsService: OrderItemsService,
@@ -159,14 +159,9 @@ class FillDataController @Autowired constructor(
     }
 
     fun fillTables() {
-        val tablesList = (1..4).map { number ->
-            TableModel(
-                    id = Constants.UNDEFINED_ID,
-                    tableNumber = number,
-                    orders = emptyList()
-            )
+        repeat(5) {
+            tablesService.createTable()
         }
-        tablesService.createTable(tablesList)
     }
 
     fun fillUsersRoles() {

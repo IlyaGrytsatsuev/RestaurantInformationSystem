@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class ResetPrimaryKeysSequencesService @Autowired constructor(
+internal class ResetPrimaryKeysSequencesService @Autowired constructor(
         private val entityManager: EntityManager
 ) {
 

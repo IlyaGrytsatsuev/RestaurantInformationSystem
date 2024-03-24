@@ -6,7 +6,7 @@ import com.example.demo.domain.usecases.menu_items.GetMenuItemsUseCase
 import com.example.demo.presenter.api_models.menu_items.DeleteMenuItemsRequest
 import com.example.demo.presenter.mappers.toMenuItemsRequestAndResponse
 import com.example.demo.presenter.mappers.toMessage
-import com.example.demo.presenter.api_models.menu_items.ErrorResponseModel
+import com.example.demo.presenter.api_models.ErrorResponseModel
 import com.example.demo.presenter.api_models.menu_items.MenuItemsRequestAndResponseModel
 import com.example.demo.utils.ByteArrayImageResourceManager
 import com.example.demo.utils.Constants
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/menu")
-class MenuRestController @Autowired constructor(
+internal class MenuItemsRestController @Autowired constructor(
         private val getMenuItemsUseCase: GetMenuItemsUseCase,
         private val createOrUpdateMenuItemsUseCase: CreateOrUpdateMenuItemsUseCase,
         private val deleteMenuItemsUseCase: DeleteMenuItemUseCase

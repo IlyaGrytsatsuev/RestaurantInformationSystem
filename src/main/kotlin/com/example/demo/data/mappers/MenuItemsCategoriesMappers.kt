@@ -5,7 +5,7 @@ import com.example.demo.data.entities.MenuItemEntity
 import com.example.demo.domain.models.MenuItemCategoryModel
 import com.example.demo.utils.exceptions.NullReceivedException
 
-fun MenuItemCategoryEntity?.toDomainModel(): MenuItemCategoryModel {
+internal fun MenuItemCategoryEntity?.toMenuItemCategoryDomainModel(): MenuItemCategoryModel {
     if (this == null)
         throw NullReceivedException()
     return MenuItemCategoryModel(
@@ -13,18 +13,18 @@ fun MenuItemCategoryEntity?.toDomainModel(): MenuItemCategoryModel {
             name = this.name,
             menuItemsModelsList =
             this.menuItemsEntitiesList
-                    .toStuffModelsList()
+                    .toMenuItemModelsList()
     )
 }
 
-fun List<MenuItemCategoryEntity>.toStuffModelsList()
+internal fun List<MenuItemCategoryEntity>.toMenuItemCategoryModelsList()
         : List<MenuItemCategoryModel> {
     return this.map { menuItemCategoryEntity ->
-        menuItemCategoryEntity.toDomainModel()
+        menuItemCategoryEntity.toMenuItemCategoryDomainModel()
     }
 }
 
-fun MenuItemCategoryModel.toDbModel(
+internal fun MenuItemCategoryModel.toMenuItemCategoryDbModel(
         menuItemsEntitiesList: List<MenuItemEntity>
 ): MenuItemCategoryEntity {
     return MenuItemCategoryEntity(
@@ -35,6 +35,6 @@ fun MenuItemCategoryModel.toDbModel(
     )
 }
 
-fun MenuItemCategoryModel.toEntityObjectForSaving(): MenuItemCategoryEntity {
-    return this.toDbModel(emptyList())
+internal fun MenuItemCategoryModel.toMenuItemCategoryEntityObjectForSaving(): MenuItemCategoryEntity {
+    return this.toMenuItemCategoryDbModel(emptyList())
 }

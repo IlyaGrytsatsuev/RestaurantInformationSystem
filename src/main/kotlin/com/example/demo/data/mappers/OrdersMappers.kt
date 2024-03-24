@@ -4,30 +4,30 @@ import com.example.demo.data.entities.*
 import com.example.demo.domain.models.OrderModel
 import com.example.demo.utils.exceptions.NullReceivedException
 
-fun OrderEntity?.toDomainModel(): OrderModel {
+internal fun OrderEntity?.toOrderDomainModel(): OrderModel {
     if (this == null)
         throw NullReceivedException()
 
     return OrderModel(
             id = this.id,
             waiterModel = this.waiterEntity.toStuffModel(),
-            status = this.orderStatusEntity.toDomainModel(),
+            status = this.orderStatusEntity.toOrderStatusDomainModel(),
             dateTime = this.dateTime,
             tableId = this.tableEntity.id,
             orderItemsList =
-            this.orderItemsEntitiesList.toStuffModelsList()
+            this.orderItemsEntitiesList.toOrderItemModelsList()
     )
 }
 
-fun List<OrderEntity>.extractIdsList(): List<Int> {
+internal fun List<OrderEntity>.extractOrderIdsList(): List<Int> {
     return this.map { orderEntity -> orderEntity.id }
 }
 
-fun List<OrderEntity>.toStuffModelsList(): List<OrderModel> {
-    return this.map { orderEntity -> orderEntity.toDomainModel() }
+internal fun List<OrderEntity>.toOrderModelsList(): List<OrderModel> {
+    return this.map { orderEntity -> orderEntity.toOrderDomainModel() }
 }
 
-fun OrderModel.toDbModel(
+internal fun OrderModel.toOrderDbModel(
         tableEntity: TableEntity?,
         waiterEntity: UserEntity?,
         orderStatusEntity: OrderStatusEntity?,
@@ -46,12 +46,12 @@ fun OrderModel.toDbModel(
     )
 }
 
-fun OrderModel.toEntityObjectForSaving(
+internal fun OrderModel.toOrderEntityObjectForSaving(
         tableEntity: TableEntity?,
         waiterEntity: UserEntity?,
         orderStatusEntity: OrderStatusEntity?,
 ): OrderEntity {
-    return this.toDbModel(
+    return this.toOrderDbModel(
             tableEntity = tableEntity,
             waiterEntity = waiterEntity,
             orderStatusEntity = orderStatusEntity,

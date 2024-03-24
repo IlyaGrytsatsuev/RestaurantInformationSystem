@@ -2,7 +2,7 @@ package com.example.demo.domain.services
 
 import com.example.demo.domain.models.MenuItemCategoryModel
 
-interface MenuItemsCategoriesService {
+internal interface MenuItemsCategoriesService {
 
     fun getMenuItemsCategoriesList(): List<MenuItemCategoryModel>
 

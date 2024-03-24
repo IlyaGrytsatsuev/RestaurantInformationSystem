@@ -1,6 +1,6 @@
 package com.example.demo.domain.models
 
-data class StuffModel(
+internal data class StuffModel(
         val id: Int,
         val name:String,
         val surname: String,

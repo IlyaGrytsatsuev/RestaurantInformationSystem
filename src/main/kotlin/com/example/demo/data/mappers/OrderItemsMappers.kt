@@ -7,27 +7,27 @@ import com.example.demo.data.entities.OrderItemStatusEntity
 import com.example.demo.domain.models.OrderItemModel
 import com.example.demo.utils.exceptions.NullReceivedException
 
-fun OrderItemEntity?.toDomainModel(): OrderItemModel {
+internal fun OrderItemEntity?.toOrderItemDomainModel(): OrderItemModel {
     if (this == null)
         throw NullReceivedException()
     return OrderItemModel(
             id = this.id,
             orderId = this.orderEntity.id,
-            menuItemModel = this.menuItemEntity.toDomainModel(),
+            menuItemModel = this.menuItemEntity.toMenuItemDomainModel(),
             quantity = this.quantity,
-            status = this.status.toDomainModel()
+            status = this.status.toOrderItemStatusDomainModel()
     )
 }
 
-fun List<OrderItemEntity>.toStuffModelsList(): List<OrderItemModel> {
-    return this.map { orderItemEntity -> orderItemEntity.toDomainModel() }
+internal fun List<OrderItemEntity>.toOrderItemModelsList(): List<OrderItemModel> {
+    return this.map { orderItemEntity -> orderItemEntity.toOrderItemDomainModel() }
 }
 
-fun List<OrderItemEntity>.extractIds(): List<Int>{
+internal fun List<OrderItemEntity>.extractOrderItemIds(): List<Int>{
     return this.map { orderItemEntity -> orderItemEntity.id }
 }
 
-fun OrderItemModel.toDbModel(
+internal fun OrderItemModel.toOrderItemDbModel(
         orderEntity: OrderEntity?,
         menuItemEntity: MenuItemEntity?,
         itemStatusEntity: OrderItemStatusEntity?
