@@ -62,7 +62,7 @@ internal class OrderStatusesController @Autowired constructor(
     fun handleValidationException(exception: ValidationException): ResponseEntity<ErrorResponseModel> {
         return ResponseEntity(
             ErrorResponseModel(exception.message ?: Constants.VALIDATION_ERROR_MESSAGE),
-            HttpStatus.NOT_FOUND
+            HttpStatus.BAD_REQUEST
         )
     }
 

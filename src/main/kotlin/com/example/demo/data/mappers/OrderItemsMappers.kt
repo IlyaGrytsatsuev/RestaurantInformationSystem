@@ -13,9 +13,9 @@ internal fun OrderItemEntity?.toOrderItemDomainModel(): OrderItemModel {
     return OrderItemModel(
             id = this.id,
             orderId = this.orderEntity.id,
-            menuItemModel = this.menuItemEntity.toMenuItemDomainModel(),
+            menuItemId = this.menuItemEntity.id,
             quantity = this.quantity,
-            status = this.status.toOrderItemStatusDomainModel()
+            statusId = this.status.id
     )
 }
 

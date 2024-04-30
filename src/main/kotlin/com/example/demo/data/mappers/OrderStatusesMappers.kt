@@ -11,8 +11,6 @@ internal fun OrderStatusEntity?.toOrderStatusDomainModel(): OrderStatusModel {
     return OrderStatusModel(
             id = this.id,
             status = this.name,
-            ordersIdsList =
-            this.ordersEntitiesList.extractOrderIdsList()
     )
 }
 

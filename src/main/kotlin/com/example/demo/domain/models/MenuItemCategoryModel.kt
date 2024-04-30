@@ -8,5 +8,4 @@ internal data class MenuItemCategoryModel(
         @NotBlank
         @NotEmpty
         val name: String,
-        val menuItemsModelsList: List<MenuItemModel>
 )

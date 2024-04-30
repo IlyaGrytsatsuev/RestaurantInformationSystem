@@ -11,9 +11,6 @@ internal fun MenuItemCategoryEntity?.toMenuItemCategoryDomainModel(): MenuItemCa
     return MenuItemCategoryModel(
             id = this.id,
             name = this.name,
-            menuItemsModelsList =
-            this.menuItemsEntitiesList
-                    .toMenuItemModelsList()
     )
 }
 

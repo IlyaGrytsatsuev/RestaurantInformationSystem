@@ -11,6 +11,8 @@ internal class TableEntity (
         var id: Int,
         @Column(name = "table_number")
         var tableNumber: Int,
+        @Column(name = "is_free")
+        var isFree: Boolean,
         @OneToMany(
                 mappedBy = "tableEntity",
                 fetch = FetchType.LAZY)

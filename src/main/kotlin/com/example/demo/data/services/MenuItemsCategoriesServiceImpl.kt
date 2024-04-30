@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 internal class MenuItemsCategoriesServiceImpl @Autowired constructor(
-        private val menuItemsCategoriesRepository: MenuItemsCategoriesRepository,
+    private val menuItemsCategoriesRepository: MenuItemsCategoriesRepository,
 ) : MenuItemsCategoriesService {
 
     override fun getMenuItemsCategoriesList(): List<MenuItemCategoryModel> {
@@ -22,7 +22,7 @@ internal class MenuItemsCategoriesServiceImpl @Autowired constructor(
 
     @Transactional
     override fun createOrUpdateMenuItemsCategories(
-            menuItemsCategories: List<MenuItemCategoryModel>
+        menuItemsCategories: List<MenuItemCategoryModel>
     ) {
         menuItemsCategories.map { menuItemCategoryModel ->
             updateItemCategoryEntityOrSaveNewInstance(menuItemCategoryModel)
@@ -31,10 +31,9 @@ internal class MenuItemsCategoriesServiceImpl @Autowired constructor(
 
     @Transactional
     override fun deleteMenuItemCategories(ids: List<Int>) {
-        if(ids.isEmpty()) {
+        if (ids.isEmpty()) {
             menuItemsCategoriesRepository.deleteAll()
-        }
-        else {
+        } else {
             ids.forEach { id ->
                 menuItemsCategoriesRepository.deleteById(id)
             }
@@ -42,19 +41,20 @@ internal class MenuItemsCategoriesServiceImpl @Autowired constructor(
     }
 
     private fun updateItemCategoryEntityOrSaveNewInstance(
-            menuItemCategoryModel: MenuItemCategoryModel
+        menuItemCategoryModel: MenuItemCategoryModel
     ) {
         val menuItemCategoryEntity = menuItemsCategoriesRepository.findByIdOrNull(
-                menuItemCategoryModel.id
+            menuItemCategoryModel.id
         )
         if (menuItemCategoryEntity == null) {
 
             menuItemsCategoriesRepository.save(
-                    menuItemCategoryModel.toMenuItemCategoryEntityObjectForSaving()
+                menuItemCategoryModel.toMenuItemCategoryEntityObjectForSaving()
             )
 
         } else {
             menuItemCategoryEntity.name = menuItemCategoryModel.name
+            menuItemsCategoriesRepository.save(menuItemCategoryEntity)
         }
     }
 

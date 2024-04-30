@@ -15,8 +15,6 @@ internal fun UserEntity?.toStuffModel(): StuffModel {
             name = this.name,
             surname = this.surname,
             role = this.roleEntity.roleName,
-            ordersIdsList =
-            this.ordersEntitiesList.extractOrderIdsList()
     )
 }
 

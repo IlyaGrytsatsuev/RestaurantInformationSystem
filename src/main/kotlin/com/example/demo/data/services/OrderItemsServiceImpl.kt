@@ -56,10 +56,10 @@ internal class OrderItemsServiceImpl @Autowired constructor(
             val orderEntity = ordersRepository
                 .findByIdOrNull(orderItemModel.orderId)
             val menuItemEntity = menuItemsRepository
-                .findByIdOrNull(orderItemModel.menuItemModel.id)
+                .findByIdOrNull(orderItemModel.menuItemId)
 
             val status = orderItemsStatusesRepository.findByIdOrNull(
-                orderItemModel.status.id
+                orderItemModel.statusId
             )
             orderItemsRepository.save(
                 orderItemModel.toOrderItemDbModel(
@@ -70,6 +70,7 @@ internal class OrderItemsServiceImpl @Autowired constructor(
             )
         } else {
             orderItemEntity.setEntityProperties(orderItemModel)
+            orderItemsRepository.save(orderItemEntity)
         }
     }
 
@@ -78,7 +79,7 @@ internal class OrderItemsServiceImpl @Autowired constructor(
         orderItemModel: OrderItemModel
     ) {
         this.menuItemEntity = menuItemsRepository
-            .findByIdOrNull(orderItemModel.menuItemModel.id)
+            .findByIdOrNull(orderItemModel.menuItemId)
             ?: throw NullReceivedException()
     }
 }

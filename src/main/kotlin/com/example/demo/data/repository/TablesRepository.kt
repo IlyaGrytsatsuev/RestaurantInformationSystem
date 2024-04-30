@@ -10,4 +10,5 @@ internal interface TablesRepository: JpaRepository<TableEntity, Int> {
 
     @Query("SELECT table from TableEntity table WHERE table.tableNumber = :number")
     fun findByTableNumberOrNull(number: Int): TableEntity?
+
 }

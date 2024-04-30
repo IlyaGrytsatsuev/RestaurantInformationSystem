@@ -48,6 +48,7 @@ internal class OrderItemsStatusesServiceImpl @Autowired constructor(
             )
         } else {
             orderItemStatusEntity.setEntityProperties(orderItemStatusModel)
+            orderItemsStatusesRepository.save(orderItemStatusEntity)
         }
     }
 

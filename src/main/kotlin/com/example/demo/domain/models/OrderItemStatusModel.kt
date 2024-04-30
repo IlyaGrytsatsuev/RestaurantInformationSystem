@@ -8,5 +8,4 @@ internal data class OrderItemStatusModel(
         @NotEmpty
         @NotBlank
         val status: String,
-        val ordersItemsIdsList: List<Int>
 )

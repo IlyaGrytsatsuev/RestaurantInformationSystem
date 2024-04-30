@@ -11,7 +11,6 @@ internal fun UserRoleEntity?.toUserRoleDomainModel(): UserRoleModel {
     return UserRoleModel(
             id = this.id,
             roleName = this.roleName,
-            usersList = this.usersEntitiesList.toStuffModelsList()
     )
 }
 

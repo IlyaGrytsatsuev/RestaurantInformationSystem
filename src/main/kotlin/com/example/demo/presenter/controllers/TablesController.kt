@@ -3,6 +3,7 @@ package com.example.demo.presenter.controllers
 import com.example.demo.domain.usecases.tables.AddTableUseCase
 import com.example.demo.domain.usecases.tables.DeleteTablesUseCase
 import com.example.demo.domain.usecases.tables.GetTablesUseCase
+import com.example.demo.domain.usecases.tables.SetTableAccessibilityUseCase
 import com.example.demo.presenter.api_models.ErrorResponseModel
 import com.example.demo.presenter.api_models.tables.DeleteTablesRequest
 import com.example.demo.presenter.api_models.tables.TablesResponseAndRequest
@@ -21,10 +22,19 @@ internal class TablesController @Autowired constructor(
     private val getTablesUseCase: GetTablesUseCase,
     private val addTableUseCase: AddTableUseCase,
     private val deleteTablesUseCase: DeleteTablesUseCase,
+    private val setTablesAccessibilityUseCase: SetTableAccessibilityUseCase
 ) {
     @GetMapping
     fun getTablesList(): TablesResponseAndRequest {
         return getTablesUseCase().toTablesResponseAndRequest()
+    }
+
+    @PostMapping("/setAccessibility")
+    fun setAccessibility(@RequestBody tablesResponseAndRequest: TablesResponseAndRequest){
+        if (tablesResponseAndRequest.tablesList.isEmpty()) {
+            throw ValidationException(Constants.EMPTY_LIST_MESSAGE)
+        }
+        setTablesAccessibilityUseCase(tablesResponseAndRequest.tablesList.first())
     }
 
     @PostMapping("/addTable")

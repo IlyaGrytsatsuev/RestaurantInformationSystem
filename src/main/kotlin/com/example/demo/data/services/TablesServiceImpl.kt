@@ -36,6 +36,14 @@ internal class TablesServiceImpl @Autowired constructor(
         )
     }
 
+    override fun setTableAccessibility(table: TableModel){
+        val tableEntity = tablesRepository.findByTableNumberOrNull(table.tableNumber)
+        if (tableEntity != null) {
+            tableEntity.isFree = table.isFree
+            tablesRepository.save(tableEntity)
+        }
+    }
+
     @Transactional
     override fun deleteTables(items: List<Int>) {
         if (items.isEmpty()) {

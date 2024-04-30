@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.LocalDateTime
 
 @Service
 @Transactional(readOnly = true)
@@ -56,12 +57,15 @@ internal class OrdersServiceImpl @Autowired constructor(
             val tableEntity = tablesRepository
                 .findByIdOrNull(orderModel.tableId)
             val waiterEntity = usersRepository
-                .findByIdOrNull(orderModel.waiterModel.id)
+                .findByIdOrNull(orderModel.waiterId)
             val orderStatusEntity = orderStatusesRepository
-                .findByIdOrNull(orderModel.status.id)
+                .findByIdOrNull(orderModel.waiterId)
 
+            val orderModelWithCurTime = orderModel.copy(
+                dateTime = LocalDateTime.now()
+            )
             ordersRepository.save(
-                orderModel.toOrderEntityObjectForSaving(
+                orderModelWithCurTime.toOrderEntityObjectForSaving(
                     tableEntity = tableEntity,
                     waiterEntity = waiterEntity,
                     orderStatusEntity = orderStatusEntity
@@ -69,6 +73,7 @@ internal class OrdersServiceImpl @Autowired constructor(
             )
         } else {
             orderEntity.setEntityProperties(orderModel)
+            ordersRepository.save(orderEntity)
         }
     }
 
@@ -78,8 +83,8 @@ internal class OrdersServiceImpl @Autowired constructor(
         this.tableEntity = tablesRepository
             .findByIdOrNull(orderModel.id) ?: throw NullReceivedException()
         this.waiterEntity = usersRepository
-            .findByIdOrNull(orderModel.waiterModel.id)
+            .findByIdOrNull(orderModel.waiterId)
         this.orderStatusEntity = orderStatusesRepository
-            .findByIdOrNull(orderModel.status.id) ?: throw NullReceivedException()
+            .findByIdOrNull(orderModel.statusId) ?: throw NullReceivedException()
     }
 }

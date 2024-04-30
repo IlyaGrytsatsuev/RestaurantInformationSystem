@@ -57,6 +57,7 @@ internal class UsersServiceImpl @Autowired constructor(
             )
         } else {
             userEntity.setEntityProperties(userAuthorizationModel)
+            usersRepository.save(userEntity)
         }
     }
 

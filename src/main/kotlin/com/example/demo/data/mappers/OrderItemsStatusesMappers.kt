@@ -10,9 +10,7 @@ internal fun OrderItemStatusEntity?.toOrderItemStatusDomainModel(): OrderItemSta
         throw NullReceivedException()
     return OrderItemStatusModel(
             id = this.id,
-            status = this.orderItemStatus,
-            ordersItemsIdsList =
-            this.orderItemsList.extractOrderItemIds()
+            status = this.orderItemStatus
     )
 }
 

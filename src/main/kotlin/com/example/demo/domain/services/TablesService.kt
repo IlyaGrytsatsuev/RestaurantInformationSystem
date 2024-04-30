@@ -6,5 +6,6 @@ internal interface TablesService {
     fun getTablesList(): List<TableModel>
     fun createTable()
     fun deleteTables(items: List<Int>)
+    fun setTableAccessibility(table: TableModel)
 
 }

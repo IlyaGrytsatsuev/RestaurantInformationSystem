@@ -10,12 +10,10 @@ internal fun OrderEntity?.toOrderDomainModel(): OrderModel {
 
     return OrderModel(
             id = this.id,
-            waiterModel = this.waiterEntity.toStuffModel(),
-            status = this.orderStatusEntity.toOrderStatusDomainModel(),
+            waiterId = this.waiterEntity?.id ?: 0,
+            statusId = this.orderStatusEntity.id,
             dateTime = this.dateTime,
             tableId = this.tableEntity.id,
-            orderItemsList =
-            this.orderItemsEntitiesList.toOrderItemModelsList()
     )
 }
 

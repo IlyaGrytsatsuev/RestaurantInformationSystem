@@ -51,6 +51,7 @@ internal class OrderStatusesServiceImpl @Autowired constructor(
             )
         } else {
             orderStatusEntity.name = orderStatusModel.status
+            orderStatusesRepository.save(orderStatusEntity)
         }
     }
 

@@ -12,7 +12,7 @@ internal fun TableEntity?.toTableDomainModel(): TableModel {
     return TableModel(
         id = this.id,
         tableNumber = this.tableNumber,
-        orders = this.orderEntitiesList.toOrderModelsList()
+        isFree = isFree
     )
 }
 
@@ -20,23 +20,26 @@ internal fun List<TableEntity>.toTablesModelsList(): List<TableModel> {
     return this.map { tableEntity -> tableEntity.toTableDomainModel() }
 }
 
-internal fun TableModel.toTableDbModel(
-    orderEntitiesList: List<OrderEntity>,
-    tableNumber: Int? = null
-): TableEntity {
-    return TableEntity(
-        id = this.id,
-        tableNumber = tableNumber ?: this.tableNumber,
-        orderEntitiesList = orderEntitiesList
-    )
-}
+//internal fun TableModel.toTableDbModel(
+//    orderEntitiesList: List<OrderEntity>,
+//    tableNumber: Int? = null,
+//    isTableFree: Boolean
+//): TableEntity {
+//    return TableEntity(
+//        id = this.id,
+//        tableNumber = tableNumber ?: this.tableNumber,
+//        orderEntitiesList = orderEntitiesList
+//    )
+//}
 
 internal fun createTableEntityObjectForSaving(
-    tableNumber: Int
+    tableNumber: Int,
+    isTableFree: Boolean = true
 ): TableEntity {
     return TableEntity(
         id = -1,
         tableNumber = tableNumber,
+        isFree = isTableFree,
         orderEntitiesList = emptyList(),
     )
 

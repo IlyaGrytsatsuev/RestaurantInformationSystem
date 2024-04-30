@@ -5,5 +5,4 @@ internal data class StuffModel(
         val name:String,
         val surname: String,
         val role: String,
-        val ordersIdsList: List<Int>
 )

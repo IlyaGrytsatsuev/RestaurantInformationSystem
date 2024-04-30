@@ -29,7 +29,7 @@ internal class MenuCategoriesRestController @Autowired constructor(
         private val deleteMenuItemCategoriesUseCase: DeleteMenuItemCategoriesUseCase
 ) {
 
-    @GetMapping("/categories")
+    @GetMapping
     fun getMenuItemsCategories(): MenuItemsCategoriesRequestAndResponse =
         getMenuItemsCategoriesUseCase.invoke().toCategoriesRequestAndResponse()
 

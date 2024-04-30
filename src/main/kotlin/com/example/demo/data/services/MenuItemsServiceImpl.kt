@@ -60,6 +60,7 @@ internal class MenuItemsServiceImpl @Autowired constructor(
             )
         } else {
             menuItemEntity.setEntityProperties(menuItemModel)
+            menuItemsRepository.save(menuItemEntity)
         }
     }
 

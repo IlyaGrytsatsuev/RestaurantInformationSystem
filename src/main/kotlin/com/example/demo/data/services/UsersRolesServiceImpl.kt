@@ -48,6 +48,7 @@ internal class UsersRolesServiceImpl @Autowired constructor(
             )
         } else {
             userRoleEntity.setEntityProperties(userRoleModel)
+            userRolesRepository.save(userRoleEntity)
         }
     }
 
