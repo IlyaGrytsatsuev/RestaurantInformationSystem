@@ -14,7 +14,7 @@ internal fun UserEntity?.toStuffModel(): StuffModel {
             id = this.id,
             name = this.name,
             surname = this.surname,
-            role = this.roleEntity.roleName,
+            role = this.roleEntity.id,
     )
 }
 

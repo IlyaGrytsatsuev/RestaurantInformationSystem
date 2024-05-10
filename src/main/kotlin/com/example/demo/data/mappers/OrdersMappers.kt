@@ -3,17 +3,18 @@ package com.example.demo.data.mappers
 import com.example.demo.data.entities.*
 import com.example.demo.domain.models.OrderModel
 import com.example.demo.utils.exceptions.NullReceivedException
+import java.time.format.DateTimeFormatter
 
 internal fun OrderEntity?.toOrderDomainModel(): OrderModel {
     if (this == null)
         throw NullReceivedException()
 
     return OrderModel(
-            id = this.id,
-            waiterId = this.waiterEntity?.id ?: 0,
-            statusId = this.orderStatusEntity.id,
-            dateTime = this.dateTime,
-            tableId = this.tableEntity.id,
+        id = this.id,
+        waiterId = this.waiterEntity?.id ?: 0,
+        statusId = this.orderStatusEntity.id,
+        dateTime = this.dateTime,
+        tableId = this.tableEntity.id,
     )
 }
 

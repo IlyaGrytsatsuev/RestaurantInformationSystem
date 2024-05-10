@@ -4,5 +4,5 @@ internal data class StuffModel(
         val id: Int,
         val name:String,
         val surname: String,
-        val role: String,
+        val role: Int,
 )
