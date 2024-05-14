@@ -1,11 +1,13 @@
 package com.example.demo.data.services
 
 import com.example.demo.data.entities.UserEntity
+import com.example.demo.data.mappers.toStuffModel
 import com.example.demo.data.mappers.toStuffModelsList
+import com.example.demo.data.mappers.toUserAuthorizationModel
 import com.example.demo.data.mappers.toUserEntityObjectForSaving
 import com.example.demo.data.repository.UserRolesRepository
 import com.example.demo.data.repository.UsersRepository
-import com.example.demo.domain.models.StuffModel
+import com.example.demo.domain.models.UserModel
 import com.example.demo.domain.models.UserAuthorizationModel
 import com.example.demo.domain.services.UsersService
 import com.example.demo.utils.exceptions.NullReceivedException
@@ -20,8 +22,16 @@ internal class UsersServiceImpl @Autowired constructor(
     private val usersRepository: UsersRepository,
     private val userRolesRepository: UserRolesRepository
 ) : UsersService {
-    override fun getStuffList(): List<StuffModel> {
+    override fun getUsersList(): List<UserModel> {
         return usersRepository.findAll().toStuffModelsList()
+    }
+
+    override fun authorizeUser(user: UserAuthorizationModel): List<UserAuthorizationModel> {
+        val userEntity = usersRepository.findUserEntityByUsername(user.username)?: throw NullReceivedException()
+        if(userEntity.password == user.password) {
+            return listOf(userEntity.toUserAuthorizationModel())
+        }
+        throw NullReceivedException()
     }
 
     @Transactional

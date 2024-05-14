@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 internal interface UsersRepository: JpaRepository<UserEntity, Int> {
+
+    fun findUserEntityByUsername(name:String): UserEntity?
 }

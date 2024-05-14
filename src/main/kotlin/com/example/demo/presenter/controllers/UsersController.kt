@@ -1,18 +1,17 @@
 package com.example.demo.presenter.controllers
 
-import com.example.demo.domain.usecases.user_roles.DeleteUserRolesUseCase
+import com.example.demo.domain.models.UserAuthorizationModel
 import com.example.demo.domain.usecases.users.AddOrUpdateUsersUseCase
+import com.example.demo.domain.usecases.users.AuthorizeUserUseCase
 import com.example.demo.domain.usecases.users.DeleteUsersUseCase
 import com.example.demo.domain.usecases.users.GetUsersUseCase
 import com.example.demo.presenter.api_models.ErrorResponseModel
-import com.example.demo.presenter.api_models.user_roles.DeleteUserRolesRequest
-import com.example.demo.presenter.api_models.user_roles.UserRolesResponseAndRequest
-import com.example.demo.presenter.api_models.users.AddOrUpdateUserRequest
+import com.example.demo.presenter.api_models.users.AuthorizationUserRequestAndResponse
 import com.example.demo.presenter.api_models.users.DeleteUsersRequest
 import com.example.demo.presenter.api_models.users.UsersResponseAndRequest
 import com.example.demo.presenter.mappers.toMessage
+import com.example.demo.presenter.mappers.toUsersAuthorizationRequestAndResponse
 import com.example.demo.presenter.mappers.toUsersResponseAndRequest
-import com.example.demo.presenter.mappers.toUsersRolesResponseAndRequest
 import com.example.demo.utils.Constants
 import com.example.demo.utils.exceptions.NullReceivedException
 import com.example.demo.utils.exceptions.ValidationException
@@ -28,6 +27,7 @@ internal class UsersController @Autowired constructor(
     private val getUsersUseCase: GetUsersUseCase,
     private val addOrUpdateUsersUseCase: AddOrUpdateUsersUseCase,
     private val deleteUsersUseCase: DeleteUsersUseCase,
+    private val authorizeUserUseCase: AuthorizeUserUseCase
 ) {
 
     @GetMapping
@@ -35,9 +35,22 @@ internal class UsersController @Autowired constructor(
         return getUsersUseCase().toUsersResponseAndRequest()
     }
 
+    @PostMapping("/authorize")
+    fun authorizeUser(
+        @RequestBody authorizationModel: UserAuthorizationModel,
+        bindingResult: BindingResult
+    ): AuthorizationUserRequestAndResponse {
+        if (bindingResult.hasErrors()) {
+            throw ValidationException(bindingResult.toMessage())
+        }
+        return authorizeUserUseCase
+            .invoke(authorizationModel)
+            .toUsersAuthorizationRequestAndResponse()
+    }
+
     @PostMapping("/addOrEditUser")
-    fun addOrUpdateOrderStatus(
-        @RequestBody addOrUpdateUserRequest: AddOrUpdateUserRequest,
+    fun addOrUpdateUser(
+        @RequestBody addOrUpdateUserRequest: AuthorizationUserRequestAndResponse,
         bindingResult: BindingResult
     ) {
         if (bindingResult.hasErrors()) {
@@ -47,7 +60,7 @@ internal class UsersController @Autowired constructor(
     }
 
     @PostMapping("/deleteUser")
-    fun deleteStatus(@RequestBody deleteUsersRequest: DeleteUsersRequest) {
+    fun deleteUser(@RequestBody deleteUsersRequest: DeleteUsersRequest) {
         if (deleteUsersRequest.idsList.isEmpty()) {
             throw ValidationException(Constants.EMPTY_LIST_MESSAGE)
         }
@@ -55,20 +68,20 @@ internal class UsersController @Autowired constructor(
     }
 
     @PostMapping("/deleteAllRoles")
-    fun deleteAllStatuses() {
+    fun deleteAllUsers() {
         deleteUsersUseCase(emptyList())
     }
 
     @ExceptionHandler
     fun handleNullReceivedException(exception: NullReceivedException): ResponseEntity<ErrorResponseModel> {
-        return ResponseEntity(ErrorResponseModel(Constants.NOT_FOUND_RESPONSE_MESSAGE), HttpStatus.NOT_FOUND)
+        return ResponseEntity(ErrorResponseModel(Constants.NOT_FOUND_RESPONSE_MESSAGE), HttpStatus.BAD_REQUEST)
     }
 
     @ExceptionHandler
     fun handleValidationException(exception: ValidationException): ResponseEntity<ErrorResponseModel> {
         return ResponseEntity(
             ErrorResponseModel(exception.message ?: Constants.VALIDATION_ERROR_MESSAGE),
-            HttpStatus.NOT_FOUND
+            HttpStatus.BAD_REQUEST
         )
     }
 }

@@ -13,6 +13,7 @@ import com.example.demo.presenter.api_models.menu_items_categories.MenuItemsCate
 import com.example.demo.presenter.api_models.order_statuses.OrderStatusesResponseAndRequest
 import com.example.demo.presenter.api_models.orders.OrdersResponseAndRequest
 import com.example.demo.presenter.api_models.user_roles.UserRolesResponseAndRequest
+import com.example.demo.presenter.api_models.users.AuthorizationUserRequestAndResponse
 import com.example.demo.presenter.api_models.users.UsersResponseAndRequest
 
 internal fun List<MenuItemModel>.toMenuItemsRequestAndResponse(): MenuItemsRequestAndResponseModel =
@@ -31,6 +32,8 @@ internal fun List<TableModel>.toTablesResponseAndRequest(): TablesResponseAndReq
         TablesResponseAndRequest(this)
 internal fun List<UserRoleModel>.toUsersRolesResponseAndRequest(): UserRolesResponseAndRequest =
         UserRolesResponseAndRequest(this)
-internal fun List<StuffModel>.toUsersResponseAndRequest(): UsersResponseAndRequest =
+internal fun List<UserModel>.toUsersResponseAndRequest(): UsersResponseAndRequest =
         UsersResponseAndRequest(this)
+internal fun List<UserAuthorizationModel>.toUsersAuthorizationRequestAndResponse(): AuthorizationUserRequestAndResponse =
+        AuthorizationUserRequestAndResponse(this)
 

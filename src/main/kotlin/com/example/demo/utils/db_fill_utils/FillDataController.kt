@@ -13,6 +13,7 @@ import com.example.demo.utils.db_fill_utils.Categories.SALADS_CATEGORY
 import com.example.demo.utils.db_fill_utils.Categories.SOUP_CATEGORY
 import com.example.demo.utils.exceptions.NullReceivedException
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.stereotype.Controller
 import java.time.LocalDateTime
 
@@ -175,8 +176,13 @@ internal class FillDataController @Autowired constructor(
             UserRoleModel(
                 id = Constants.UNDEFINED_ID,
                 roleName = UserRole.WAITER.name,
+            ),
+            UserRoleModel(
+                id = Constants.UNDEFINED_ID,
+                roleName = UserRole.CLIENT.name,
             )
         )
+
         usersRolesService.createOrUpdateUserRole(rolesList)
     }
 
@@ -185,14 +191,39 @@ internal class FillDataController @Autowired constructor(
             .find { role ->
                 role.roleName == UserRole.ADMIN.name
             }?.id ?: throw NullReceivedException()
+        val waiterRoleId = usersRolesService.getUsersRolesList()
+            .find { role ->
+                role.roleName == UserRole.WAITER.name
+            }?.id ?: throw NullReceivedException()
+        val clientRoleId = usersRolesService.getUsersRolesList()
+            .find { role ->
+                role.roleName == UserRole.CLIENT.name
+            }?.id ?: throw NullReceivedException()
+
         val usersList = listOf(
             UserAuthorizationModel(
                 id = Constants.UNDEFINED_ID,
                 username = UserRole.ADMIN.name,
                 password = UserRole.ADMIN.name,
-                name = UserRole.ADMIN.name,
-                surname = UserRole.ADMIN.name,
+                name = "Админ",
+                surname = "Админов",
                 roleId = adminRoleId
+            ),
+            UserAuthorizationModel(
+                id = Constants.UNDEFINED_ID,
+                username = UserRole.WAITER.name ,
+                password = UserRole.WAITER.name,
+                name = "Иван",
+                surname = "Соломин",
+                roleId = waiterRoleId
+            ),
+            UserAuthorizationModel(
+                id = Constants.UNDEFINED_ID,
+                username = UserRole.CLIENT.name,
+                password = UserRole.CLIENT.name,
+                name = "Антон",
+                surname = "Голубков",
+                roleId = clientRoleId
             )
         )
         usersService.createOrUpdateUser(usersList)
@@ -202,6 +233,7 @@ internal class FillDataController @Autowired constructor(
         menuItemsCategoriesService.deleteMenuItemCategories(emptyList())
         menuItemsService.deleteMenuItems(emptyList())
         orderItemsStatusesService.deleteOrderItemStatuses(emptyList())
+        ordersService.deleteOrders(emptyList())
         orderStatusesService.deleteOrderStatuses(emptyList())
         tablesService.deleteTables(emptyList())
         usersService.deleteUsers(emptyList())
