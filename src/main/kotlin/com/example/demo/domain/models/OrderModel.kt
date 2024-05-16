@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 internal data class OrderModel(
         val id: Int,
-        val waiterId: Int,
+        val userId: Int,
         val statusId: Int,
         var dateTime: LocalDateTime,
         val tableId: Int,

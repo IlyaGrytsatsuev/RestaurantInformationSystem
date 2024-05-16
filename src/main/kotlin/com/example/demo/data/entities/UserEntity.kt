@@ -21,7 +21,7 @@ internal class UserEntity (
         @JoinColumn(name = "role_id")
         var roleEntity: UserRoleEntity,
         @OneToMany(
-                mappedBy = "waiterEntity",
+                mappedBy = "userEntity",
                 fetch = FetchType.LAZY)
         var ordersEntitiesList: List<OrderEntity>,
 )

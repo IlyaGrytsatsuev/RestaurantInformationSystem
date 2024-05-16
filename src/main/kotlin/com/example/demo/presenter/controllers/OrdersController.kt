@@ -25,7 +25,7 @@ internal class OrdersController @Autowired constructor(
     private val deleteOrdersUseCase: DeleteOrdersUseCase,
 ) {
     @GetMapping
-    fun getStatusesList(): OrdersResponseAndRequest {
+    fun getOrdersList(): OrdersResponseAndRequest {
         return getOrdersUseCase().toOrdersResponseAndRequest()
     }
 
@@ -41,7 +41,7 @@ internal class OrdersController @Autowired constructor(
     }
 
     @PostMapping("/deleteOrders")
-    fun deleteStatus(@RequestBody deleteOrdersRequest: DeleteOrdersRequest) {
+    fun deleteOrder(@RequestBody deleteOrdersRequest: DeleteOrdersRequest) {
         if (deleteOrdersRequest.idsList.isEmpty()) {
             throw ValidationException(Constants.EMPTY_LIST_MESSAGE)
         }
@@ -49,7 +49,7 @@ internal class OrdersController @Autowired constructor(
     }
 
     @PostMapping("/deleteAllOrders")
-    fun deleteAllStatuses() {
+    fun deleteAllOrders() {
         deleteOrdersUseCase(emptyList())
     }
 

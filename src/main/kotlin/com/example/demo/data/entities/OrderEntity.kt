@@ -12,10 +12,10 @@ internal class OrderEntity(
         var id: Int,
         @ManyToOne
         @JoinColumn(name = "table_id")
-        var tableEntity: TableEntity,
+        var tableEntity: TableEntity?,
         @ManyToOne
         @JoinColumn(name = "waiter_id")
-        var waiterEntity: UserEntity?,
+        var userEntity: UserEntity?,
         @ManyToOne
         @JoinColumn(name = "status_id")
         var orderStatusEntity: OrderStatusEntity,

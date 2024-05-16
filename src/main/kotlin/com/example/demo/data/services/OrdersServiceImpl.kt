@@ -57,9 +57,9 @@ internal class OrdersServiceImpl @Autowired constructor(
             val tableEntity = tablesRepository
                 .findByIdOrNull(orderModel.tableId)
             val waiterEntity = usersRepository
-                .findByIdOrNull(orderModel.waiterId)
+                .findByIdOrNull(orderModel.userId)
             val orderStatusEntity = orderStatusesRepository
-                .findByIdOrNull(orderModel.waiterId)
+                .findByIdOrNull(1)
 
             val orderModelWithCurTime = orderModel.copy(
                 dateTime = LocalDateTime.now()
@@ -80,11 +80,19 @@ internal class OrdersServiceImpl @Autowired constructor(
     private fun OrderEntity.setEntityProperties(
         orderModel: OrderModel
     ) {
-        this.tableEntity = tablesRepository
-            .findByIdOrNull(orderModel.id) ?: throw NullReceivedException()
-        this.waiterEntity = usersRepository
-            .findByIdOrNull(orderModel.waiterId)
-        this.orderStatusEntity = orderStatusesRepository
+        val tableEntity = tablesRepository.findByIdOrNull(tableEntity?.id)
+        this.tableEntity = tableEntity
+        this.userEntity = usersRepository
+            .findByIdOrNull(orderModel.userId)
+        val orderStatus = orderStatusesRepository
             .findByIdOrNull(orderModel.statusId) ?: throw NullReceivedException()
+        if (orderModel.statusId == 2 && tableEntity != null) {
+            tableEntity.isFree = true
+            tablesRepository.save(tableEntity)
+        } else if (tableEntity != null) {
+            tableEntity.isFree = false
+            tablesRepository.save(tableEntity)
+        }
+        this.orderStatusEntity = orderStatus
     }
 }

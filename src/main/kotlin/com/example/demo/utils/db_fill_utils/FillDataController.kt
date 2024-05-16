@@ -13,7 +13,6 @@ import com.example.demo.utils.db_fill_utils.Categories.SALADS_CATEGORY
 import com.example.demo.utils.db_fill_utils.Categories.SOUP_CATEGORY
 import com.example.demo.utils.exceptions.NullReceivedException
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.stereotype.Controller
 import java.time.LocalDateTime
 
@@ -138,7 +137,7 @@ internal class FillDataController @Autowired constructor(
         val ordersList = listOf(
             OrderModel(
                 id = -1,
-                waiterId = 1,
+                userId = 1,
                 dateTime = LocalDateTime.now(),
                 tableId = 1,
                 statusId = 1
