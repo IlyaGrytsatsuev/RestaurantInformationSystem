@@ -138,7 +138,7 @@ internal class FillDataController @Autowired constructor(
             OrderModel(
                 id = -1,
                 userId = 1,
-                dateTime = LocalDateTime.now(),
+                dateTime = LocalDateTime.now().toString(),
                 tableId = 1,
                 statusId = 1
             )

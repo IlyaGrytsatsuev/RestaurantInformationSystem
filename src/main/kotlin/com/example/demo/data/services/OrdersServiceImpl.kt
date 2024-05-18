@@ -61,13 +61,13 @@ internal class OrdersServiceImpl @Autowired constructor(
             val orderStatusEntity = orderStatusesRepository
                 .findByIdOrNull(1)
 
-            val orderModelWithCurTime = orderModel.copy(
-                dateTime = LocalDateTime.now()
-            )
+            val currentLocalDateTime = LocalDateTime.now()
+
             ordersRepository.save(
-                orderModelWithCurTime.toOrderEntityObjectForSaving(
+                orderModel.toOrderEntityObjectForSaving(
                     tableEntity = tableEntity,
                     waiterEntity = waiterEntity,
+                    localDateTime = currentLocalDateTime,
                     orderStatusEntity = orderStatusEntity
                 )
             )

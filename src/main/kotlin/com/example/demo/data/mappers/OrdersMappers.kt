@@ -3,6 +3,7 @@ package com.example.demo.data.mappers
 import com.example.demo.data.entities.*
 import com.example.demo.domain.models.OrderModel
 import com.example.demo.utils.exceptions.NullReceivedException
+import java.time.LocalDateTime
 
 internal fun OrderEntity?.toOrderDomainModel(): OrderModel {
     if (this == null)
@@ -12,7 +13,7 @@ internal fun OrderEntity?.toOrderDomainModel(): OrderModel {
         id = this.id,
         userId = this.userEntity?.id ?: 0,
         statusId = this.orderStatusEntity.id,
-        dateTime = this.dateTime,
+        dateTime = this.dateTime.toString(),
         tableId = this.tableEntity?.id ?: -1,
     )
 }
@@ -28,6 +29,7 @@ internal fun List<OrderEntity>.toOrderModelsList(): List<OrderModel> {
 internal fun OrderModel.toOrderDbModel(
     tableEntity: TableEntity?,
     waiterEntity: UserEntity?,
+    localDateTime: LocalDateTime,
     orderStatusEntity: OrderStatusEntity?,
     orderItemsEntitiesList: List<OrderItemEntity>
 ): OrderEntity {
@@ -39,7 +41,7 @@ internal fun OrderModel.toOrderDbModel(
         waiterEntity ?: throw NullReceivedException(),
         orderStatusEntity =
         orderStatusEntity ?: throw NullReceivedException(),
-        dateTime = this.dateTime,
+        dateTime = localDateTime,
         orderItemsEntitiesList = orderItemsEntitiesList
     )
 }
@@ -48,12 +50,14 @@ internal fun OrderModel.toOrderEntityObjectForSaving(
     tableEntity: TableEntity?,
     waiterEntity: UserEntity?,
     orderStatusEntity: OrderStatusEntity?,
+    localDateTime: LocalDateTime
 ): OrderEntity {
     return this.toOrderDbModel(
         tableEntity = tableEntity,
         waiterEntity = waiterEntity,
         orderStatusEntity = orderStatusEntity,
-        emptyList()
+        localDateTime = localDateTime,
+        orderItemsEntitiesList = emptyList()
     )
 }
 
