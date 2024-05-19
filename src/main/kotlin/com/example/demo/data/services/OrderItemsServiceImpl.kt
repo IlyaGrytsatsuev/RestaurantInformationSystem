@@ -58,9 +58,8 @@ internal class OrderItemsServiceImpl @Autowired constructor(
             val menuItemEntity = menuItemsRepository
                 .findByIdOrNull(orderItemModel.menuItemId)
 
-            val status = orderItemsStatusesRepository.findByIdOrNull(
-                orderItemModel.statusId
-            )
+            val status = orderItemsStatusesRepository.findByIdOrNull(1)
+
             orderItemsRepository.save(
                 orderItemModel.toOrderItemDbModel(
                     orderEntity = orderEntity,
