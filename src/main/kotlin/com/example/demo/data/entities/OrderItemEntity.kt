@@ -15,7 +15,7 @@ internal class OrderItemEntity(
         @ManyToOne
         @JoinColumn(name = "menu_item_id")
         var menuItemEntity: MenuItemEntity,
-        @Column(name = "status_name")
+        @Column(name = "quantity")
         var quantity: Int,
         @ManyToOne
         @JoinColumn(name = "status_id")
